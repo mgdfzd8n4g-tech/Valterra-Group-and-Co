@@ -1,0 +1,153 @@
+// =====================================
+// VALTERRA GROUP & CO.
+// WEBSITE FUNCTIONALITY
+// =====================================
+
+
+// MOBILE NAVIGATION
+
+const menuButton = document.querySelector(".menu-toggle");
+const navigation = document.querySelector(".navigation");
+
+menuButton.addEventListener("click", () => {
+
+    navigation.classList.toggle("open");
+
+    const isOpen = navigation.classList.contains("open");
+
+    menuButton.setAttribute("aria-expanded", isOpen);
+
+    menuButton.textContent = isOpen ? "✕" : "☰";
+
+});
+
+
+// CLOSE MENU WHEN A LINK IS CLICKED
+
+document.querySelectorAll(".navigation a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navigation.classList.remove("open");
+
+        menuButton.setAttribute("aria-expanded", "false");
+
+        menuButton.textContent = "☰";
+
+    });
+
+});
+
+
+// AUTOMATIC COPYRIGHT YEAR
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+// AUTOMATIC PACKAGE SELECTION
+
+const packageButtons = document.querySelectorAll("[data-plan]");
+
+packageButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const selectedPackage = button.getAttribute("data-plan");
+
+        document.getElementById("package").value = selectedPackage;
+
+    });
+
+});
+
+
+// CONTACT FORM
+
+const contactForm = document.getElementById("contactForm");
+
+contactForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+
+    const business = document.getElementById("business").value;
+
+    const email = document.getElementById("email").value;
+
+    const selectedPackage = document.getElementById("package").value;
+
+    const message = document.getElementById("message").value;
+
+
+    const subject = encodeURIComponent(
+        "New Business Enquiry - Valterra Group & Co."
+    );
+
+    const body = encodeURIComponent(
+
+        `NEW WEBSITE ENQUIRY
+
+Name: ${name}
+
+Business: ${business}
+
+Email: ${email}
+
+Package: ${selectedPackage}
+
+Message:
+
+${message}
+
+----------------------------
+
+Valterra Group & Co.
+Building Beyond Boundaries.`
+
+    );
+
+
+    // IMPORTANT:
+    // Replace this with your actual business email.
+
+    const businessEmail = "hello@yourdomain.co.za";
+
+
+    window.location.href =
+        `mailto:${businessEmail}?subject=${subject}&body=${body}`;
+
+});
+
+
+// SIMPLE SCROLL REVEAL ANIMATIONS
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.classList.add("visible");
+
+            observer.unobserve(entry.target);
+
+        }
+
+    });
+
+}, {
+    threshold: 0.12
+});
+
+
+document.querySelectorAll(
+    ".service-card, .price-card, .process-item"
+).forEach(element => {
+
+    element.classList.add("reveal");
+
+    observer.observe(element);
+
+});
